@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:supereats/pages/auth/login_screen.dart';
+import 'package:supereats/pages/auth/signup_screen.dart';
 import 'package:supereats/widgets/auth_button.dart';
 
-class SignupScreen extends StatefulWidget {
-  const SignupScreen({super.key});
+class LoginScreen extends StatefulWidget {
+  const LoginScreen({super.key});
 
   @override
-  State<SignupScreen> createState() => _SignupScreenState();
+  State<LoginScreen> createState() => _LoginScreenState();
 }
 
-class _SignupScreenState extends State<SignupScreen> {
+class _LoginScreenState extends State<LoginScreen> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   @override
@@ -20,13 +20,12 @@ class _SignupScreenState extends State<SignupScreen> {
           padding: const EdgeInsets.all(16.0),
           child: SingleChildScrollView(
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Image.asset(
-                  "assets/signup.jpg",
+                  "assets/login.jpg",
                   width: double.maxFinite,
                   height: 500,
-                  fit: BoxFit.contain,
+                  fit: BoxFit.cover,
                 ),
                 SizedBox(
                   height: 16,
@@ -34,7 +33,7 @@ class _SignupScreenState extends State<SignupScreen> {
                 TextField(
                   controller: emailController,
                   decoration: InputDecoration(
-                    labelText: "Email",
+                    labelText: "email",
                     border: OutlineInputBorder(),
                   ),
                 ),
@@ -58,9 +57,8 @@ class _SignupScreenState extends State<SignupScreen> {
                   height: 16,
                 ),
                 AuthButton(
-                  buttonText: 'SignUp',
+                  buttonText: "Login",
                   onTap: () {},
-                  color: Colors.red.withValues(alpha: 0.5),
                 ),
                 SizedBox(
                   height: 16,
@@ -69,7 +67,7 @@ class _SignupScreenState extends State<SignupScreen> {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     Text(
-                      "Already have an account?   ",
+                      "Dont have an account?   ",
                       style: TextStyle(
                         fontSize: 18,
                       ),
@@ -79,17 +77,17 @@ class _SignupScreenState extends State<SignupScreen> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => LoginScreen(),
+                            builder: (context) => SignupScreen(),
                           ),
                         );
                       },
                       child: Text(
-                        "Login here",
+                        "SignUp here",
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           letterSpacing: -1,
                           fontSize: 18,
-                          color: Colors.redAccent,
+                          color: Colors.blueAccent,
                         ),
                       ),
                     ),
