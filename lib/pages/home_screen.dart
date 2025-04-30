@@ -13,12 +13,13 @@ class HomeScreen extends StatelessWidget {
         title: Text("Home Screen"),
         actions: [
           IconButton(
-              onPressed: () {
-                authService.logout(context);
-              },
-              icon: Icon(
-                Icons.login,
-              ))
+            onPressed: () {
+              authService.logout(context);
+            },
+            icon: Icon(
+              Icons.login,
+            ),
+          )
         ],
       ),
     );
