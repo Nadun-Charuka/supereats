@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:supereats/pages/auth/signup_screen.dart';
-import 'package:supereats/pages/home_screen.dart';
+import 'package:supereats/screens/onboarding_screen.dart';
 import 'package:supereats/services/auth_service.dart';
 import 'package:supereats/widgets/auth_button.dart';
 import 'package:supereats/widgets/snackbar.dart';
@@ -32,13 +32,15 @@ class _LoginScreenState extends State<LoginScreen> {
     final result = await _authService.login(email, password);
 
     if (result == null) {
+      if (!mounted) return;
       setState(() {
         isLoading = false;
       });
       showSnackBar(context, "Login Successful");
       Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => HomeScreen()));
+          context, MaterialPageRoute(builder: (context) => OnboardingScreen()));
     } else {
+      if (!mounted) return;
       setState(() {
         isLoading = false;
       });

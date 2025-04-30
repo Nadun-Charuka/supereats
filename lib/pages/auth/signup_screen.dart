@@ -30,11 +30,13 @@ class _SignupScreenState extends State<SignupScreen> {
     });
     final result = await _authService.signup(email, password);
     if (result == null) {
+      if (!mounted) return;
       showSnackBar(context, "SignUp sucessfull");
       setState(() {
         isLoading = false;
       });
     } else {
+      if (!mounted) return;
       showSnackBar(context, "SignUp failed: $result");
       setState(() {
         isLoading = false;
