@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:supereats/services/auth_service.dart';
 
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+class ProfileScreen extends StatelessWidget {
+  const ProfileScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -10,7 +10,7 @@ class HomeScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("Home Screen"),
+        title: Text("Profile Screen"),
         actions: [
           IconButton(
             onPressed: () {

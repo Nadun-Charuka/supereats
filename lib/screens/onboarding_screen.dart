@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:supereats/models/on_bording_model.dart';
+import 'package:supereats/screens/app_main_screen.dart';
 import 'package:supereats/utils/colors.dart';
 
 class OnboardingScreen extends StatefulWidget {
@@ -159,7 +160,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                           ),
                         ),
                         onPressed: () {
-                          //todo
+                          Navigator.of(context).pushReplacement(
+                              MaterialPageRoute(
+                                  builder: (context) => AppMainScreen()));
                         },
                         child: Text(
                           "Get Started",

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:supereats/pages/auth/login_screen.dart';
-import 'package:supereats/pages/home_screen.dart';
 
 class AuthService {
   final supabase = Supabase.instance.client;
@@ -53,26 +52,5 @@ class AuthService {
     } catch (e) {
       debugPrint("Error: $e");
     }
-  }
-}
-
-//to saty the homescreen until logout
-class AuthCheck extends StatelessWidget {
-  final supabase = Supabase.instance.client;
-  AuthCheck({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return StreamBuilder(
-      stream: supabase.auth.onAuthStateChange,
-      builder: (contex, snapshot) {
-        final session = supabase.auth.currentSession;
-        if (session != null) {
-          return HomeScreen();
-        } else {
-          return LoginScreen();
-        }
-      },
-    );
   }
 }
