@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:supereats/screens/onboarding_screen.dart';
-import 'package:supereats/services/auth_service.dart';
+import 'package:supereats/pages/auth/login_screen.dart';
+import 'package:supereats/screens/app_main_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -22,7 +22,28 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: "Supereats",
-      home: OnboardingScreen(),
+      home: AuthCheck(),
+    );
+  }
+}
+
+//to saty the homescreen until logout
+class AuthCheck extends StatelessWidget {
+  final supabase = Supabase.instance.client;
+  AuthCheck({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder(
+      stream: supabase.auth.onAuthStateChange,
+      builder: (contex, snapshot) {
+        final session = supabase.auth.currentSession;
+        if (session != null) {
+          return AppMainScreen();
+        } else {
+          return LoginScreen();
+        }
+      },
     );
   }
 }
