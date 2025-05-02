@@ -12,7 +12,6 @@ class FoodAppHomeScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
-      backgroundColor: Colors.white,
       appBar: AppBarWidget(),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.start,

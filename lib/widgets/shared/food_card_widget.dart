@@ -1,16 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:supereats/models/product_model.dart';
+import 'package:supereats/screens/food_details_screen.dart';
 
 class FoodCardWidget extends StatelessWidget {
   final FoodModel food;
   final bool onfire;
-  const FoodCardWidget({super.key, required this.food, required this.onfire});
+  const FoodCardWidget({
+    super.key,
+    required this.food,
+    required this.onfire,
+  });
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        //todo
+        Navigator.push(
+          context,
+          PageRouteBuilder(
+            transitionDuration: Duration(seconds: 1),
+            pageBuilder: (context, animation, secondaryAnimation) =>
+                FoodDetailsScreen(
+              food: food,
+            ),
+          ),
+        );
       },
       child: Stack(
         clipBehavior: Clip.none,
@@ -50,12 +64,15 @@ class FoodCardWidget extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Image.network(
-                  food.imageCard,
-                  width: 120,
-                  height: 120,
-                  errorBuilder: (context, error, stackTrace) =>
-                      const Icon(Icons.fastfood, size: 70),
+                Hero(
+                  tag: food.imageCard,
+                  child: Image.network(
+                    food.imageCard,
+                    width: 120,
+                    height: 120,
+                    errorBuilder: (context, error, stackTrace) =>
+                        const Icon(Icons.fastfood, size: 70),
+                  ),
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 15),

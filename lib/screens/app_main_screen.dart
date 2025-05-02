@@ -25,7 +25,7 @@ class _AppMainScreenState extends State<AppMainScreen> {
       body: _pages[currentIdex],
       bottomNavigationBar: Container(
         decoration: BoxDecoration(color: Colors.white),
-        height: 90,
+        height: 80,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [

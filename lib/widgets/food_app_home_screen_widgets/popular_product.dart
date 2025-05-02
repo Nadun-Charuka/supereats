@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:supereats/models/product_model.dart';
 import 'package:supereats/providers/category_provider.dart';
-import 'package:supereats/utils/colors.dart';
 import 'package:supereats/widgets/shared/food_card_widget.dart';
 
 class PopularProductWidget extends ConsumerWidget {
@@ -52,7 +51,7 @@ class PopularProductWidget extends ConsumerWidget {
                     itemBuilder: (context, index) {
                       final food = foodList[index];
                       return Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                        padding: const EdgeInsets.all(8.0),
                         child: FoodCardWidget(
                           food: food,
                           onfire: true,

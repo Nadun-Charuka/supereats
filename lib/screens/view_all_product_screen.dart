@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:supereats/models/product_model.dart';
-import 'package:supereats/utils/colors.dart';
 import 'package:supereats/widgets/shared/food_card_widget.dart';
 
 class ViewAllProductScreen extends StatelessWidget {
