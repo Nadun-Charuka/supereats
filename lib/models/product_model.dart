@@ -71,7 +71,6 @@
 // ];
 // i have a csv file of this saample data, i will upload this csv file in my supabase project,
 
-
 var desc =
     "This is a special types of tiems, often served with cheese, lettuce, tomato, onion, pickles, bacon, or chilis; condiments such as ketchup, mustard, mayonnaise, relish, or a 'specialItems sauce', often a variation of Thousand Island dressing; and are frequently placed on sesame seed buns.";
 
@@ -87,8 +86,6 @@ class FoodModel {
   final double rate;
   final String specialItems;
   final String category;
-  final int kcal;
-  final String time;
 
   FoodModel({
     required this.imageCard,
@@ -98,8 +95,6 @@ class FoodModel {
     required this.rate,
     required this.specialItems,
     required this.category,
-    required this.kcal,
-    required this.time,
     required this.id,
   });
 
@@ -113,11 +108,9 @@ class FoodModel {
       rate: (json['rate'] as num?)?.toDouble() ?? 0.0,
       specialItems: json['specialItems'] ?? '',
       category: json['category'] ?? '',
-      kcal: json['kcal'] ?? '',
-      time: json['time']??''
     );
   }
-   Map<String, dynamic> toMap() {
+  Map<String, dynamic> toMap() {
     return {
       'id': id,
       'imageCard': imageCard,
@@ -127,8 +120,6 @@ class FoodModel {
       'rate': rate,
       'specialItems': specialItems,
       'category': category,
-      'kcal': kcal,
-      'time': time,
     };
   }
 }
