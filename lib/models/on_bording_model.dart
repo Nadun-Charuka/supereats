@@ -1,6 +1,3 @@
-import 'package:flutter/material.dart';
-import 'package:supereats/utils/colors.dart';
-
 final List<Map<String, String>> data = [
   {
     'title1': 'The Fastest In  ',

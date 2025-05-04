@@ -61,7 +61,7 @@
 //   ),
 //    FoodModel(
 //     imageCard: 'assets/food-delivery/product/cup_cake.png',
-//     imageDetail: 'assets/food-delivery/product/cup-cake1.png',
+//     imageDetail: 'assets/food-delivery/product/cup_cake1.png',
 //     name: 'Cream Cake',
 //     price: 5.99,
 //     rate: 4.7,
