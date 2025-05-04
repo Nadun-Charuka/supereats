@@ -28,7 +28,9 @@ class PopularBarWidget extends StatelessWidget {
               Text(
                 "view all",
                 style: TextStyle(
-                  color: Colors.orange,
+                  letterSpacing: -0.5,
+                  fontSize: 18,
+                  color: Colors.deepOrange,
                 ),
               ),
               SizedBox(

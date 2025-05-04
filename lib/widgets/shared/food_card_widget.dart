@@ -59,6 +59,16 @@ class FoodCardWidget extends StatelessWidget {
                   ),
                 )
               : Text(""),
+          Positioned(
+            top: 10,
+            left: -10,
+            child: IconButton(
+              icon: Icon(
+                Icons.favorite_border_rounded,
+              ),
+              onPressed: () {},
+            ),
+          ),
           SizedBox(
             width: MediaQuery.of(context).size.width * 0.5,
             child: Column(

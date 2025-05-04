@@ -64,6 +64,7 @@ flutter:
   assets:
     - assets/
     - assets/food-delivery/
+    - assets/app-banner/
     - assets/food-delivery/icon/
     - assets/food-delivery/product/
   #   - images/a_dot_ham.jpeg
