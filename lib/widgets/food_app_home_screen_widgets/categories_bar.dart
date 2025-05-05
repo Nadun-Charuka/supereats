@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -105,13 +106,12 @@ class _CategoriesBarWidgetState extends ConsumerState<CategoriesBarWidget> {
                             height: 30,
                             width: 30,
                             child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Image.network(
-                                category.image,
-                                errorBuilder: (context, error, stackTrace) =>
-                                    Icon(Icons.fastfood),
-                              ),
-                            ),
+                                padding: const EdgeInsets.all(8.0),
+                                child: CachedNetworkImage(
+                                  imageUrl: category.image,
+                                  errorWidget: (context, url, error) =>
+                                      Icon(Icons.fastfood),
+                                )),
                           ),
                           Text(
                             category.name,

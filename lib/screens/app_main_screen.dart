@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:supereats/screens/add_to_card_screen.dart';
 import 'package:supereats/screens/favorite_screen.dart';
 import 'package:supereats/screens/food_app_home_screen.dart';
 import 'package:supereats/screens/profile_screen.dart';
@@ -18,7 +19,7 @@ class _AppMainScreenState extends State<AppMainScreen> {
     FoodAppHomeScreen(),
     FavoriteScreen(),
     ProfileScreen(),
-    Scaffold(),
+    AddToCardScreen(),
   ];
   @override
   Widget build(BuildContext context) {
@@ -51,7 +52,7 @@ class _AppMainScreenState extends State<AppMainScreen> {
                   right: -7,
                   child: CircleAvatar(
                     backgroundColor: Colors.red,
-                    radius: 12,
+                    radius: 10,
                     child: Text(
                       "0",
                       style: TextStyle(
@@ -94,7 +95,7 @@ class _AppMainScreenState extends State<AppMainScreen> {
         children: [
           Icon(
             icon,
-            size: 28,
+            size: 32,
             color: index == currentIdex ? Colors.red : Colors.grey,
           ),
           SizedBox(

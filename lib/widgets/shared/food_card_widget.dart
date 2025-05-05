@@ -91,9 +91,12 @@ class FoodCardWidget extends ConsumerWidget {
                     width: 110,
                     placeholder: (context, url) => Shimmer.fromColors(
                       child: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(20),
+                        ),
                         width: 120,
                         height: 120,
-                        color: Colors.white,
                       ),
                       baseColor: Colors.grey[300]!,
                       highlightColor: Colors.grey[100]!,

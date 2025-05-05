@@ -1,5 +1,8 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:iconsax/iconsax.dart';
 import 'package:readmore/readmore.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:supereats/models/product_model.dart';
 import 'package:supereats/utils/colors.dart';
 
@@ -97,10 +100,13 @@ class _FoodDetailsScreenState extends State<FoodDetailsScreen> {
               children: [
                 Hero(
                   tag: widget.food.imageCard,
-                  child: Image.network(
-                    widget.food.imageDetail,
+                  child: CachedNetworkImage(
+                    imageUrl: widget.food.imageDetail,
                     height: 320,
-                    fit: BoxFit.fill,
+                    errorWidget: (context, url, error) => Icon(
+                      Icons.fastfood,
+                      size: 250,
+                    ),
                   ),
                 ),
                 SizedBox(
