@@ -70,15 +70,16 @@ class _AddToCardWidgetState extends ConsumerState<AddToCardWidget> {
           const SizedBox(height: 4),
           Container(
             height: 30,
-            width: 90,
+            width: 110,
             decoration: BoxDecoration(
               border: Border.all(),
               borderRadius: BorderRadius.circular(8),
             ),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 InkWell(
+                  borderRadius: BorderRadius.circular(20),
                   onTap: () {
                     if (quantity > 1) updateQuantity(quantity - 1);
                   },
@@ -86,6 +87,7 @@ class _AddToCardWidgetState extends ConsumerState<AddToCardWidget> {
                 ),
                 Text(quantity.toString()),
                 InkWell(
+                  borderRadius: BorderRadius.circular(20),
                   onTap: () {
                     updateQuantity(quantity + 1);
                   },

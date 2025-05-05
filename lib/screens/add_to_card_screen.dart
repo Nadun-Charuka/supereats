@@ -36,40 +36,44 @@ class CartScreen extends ConsumerWidget {
               double total = 0;
 
               for (final item in cartItems) {
-                final p = products
-                    .firstWhere((product) => product['id'] == item.productId);
-                total += (p['price'] as num) * item.quantity;
+                final product = products.firstWhere(
+                  (product) => product['id'] == item.productId,
+                  orElse: () =>
+                      {}, // We return an empty map here, handle this case
+                );
+                total += (product['price'] as num) * item.quantity;
               }
 
               return Column(
                 children: [
                   SizedBox(
                     height: MediaQuery.of(context).size.height * 0.6,
-                    child: Expanded(
-                      child: ListView.builder(
-                        scrollDirection: Axis.vertical,
-                        itemCount: products.length,
-                        itemBuilder: (context, index) {
-                          final product = products[index];
-                          final quantity = cartItems[index].quantity;
+                    child: ListView.builder(
+                      itemCount: products.length,
+                      itemBuilder: (context, index) {
+                        final product = products[index];
+                        final cartItem = cartItems.firstWhere(
+                          (item) => item.productId == product['id'],
+                          orElse: () => CartItem(
+                              productId: product['id'],
+                              quantity: 0), // Return a fallback CartItem
+                        );
 
-                          return products.isEmpty
-                              ? Text("Empty cart")
-                              : Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 5),
-                                  child: AddToCardWidget(
-                                    product: product,
-                                    initialQuantity: quantity,
-                                    onQuantityChanged: (newQty) {
-                                      ref
-                                          .read(cartProvider.notifier)
-                                          .setQuantity(product['id'], newQty);
-                                    },
-                                  ),
-                                );
-                        },
-                      ),
+                        final quantity = cartItem.quantity;
+
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 5),
+                          child: AddToCardWidget(
+                            product: product,
+                            initialQuantity: quantity,
+                            onQuantityChanged: (newQty) {
+                              ref
+                                  .read(cartProvider.notifier)
+                                  .setQuantity(product['id'], newQty);
+                            },
+                          ),
+                        );
+                      },
                     ),
                   ),
                   Padding(

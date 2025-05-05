@@ -1,19 +1,21 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:supereats/providers/cart_provider.dart';
 import 'package:supereats/screens/add_to_card_screen.dart';
 import 'package:supereats/screens/favorite_screen.dart';
 import 'package:supereats/screens/food_app_home_screen.dart';
 import 'package:supereats/screens/profile_screen.dart';
 
-class AppMainScreen extends StatefulWidget {
+class AppMainScreen extends ConsumerStatefulWidget {
   const AppMainScreen({super.key});
 
   @override
-  State<AppMainScreen> createState() => _AppMainScreenState();
+  ConsumerState<AppMainScreen> createState() => _AppMainScreenState();
 }
 
-class _AppMainScreenState extends State<AppMainScreen> {
+class _AppMainScreenState extends ConsumerState<AppMainScreen> {
   int currentIdex = 0;
   final List<Widget> _pages = [
     FoodAppHomeScreen(),
@@ -54,7 +56,7 @@ class _AppMainScreenState extends State<AppMainScreen> {
                     backgroundColor: Colors.red,
                     radius: 10,
                     child: Text(
-                      "0",
+                      ref.watch(cartProvider).value?.length.toString() ?? "0",
                       style: TextStyle(
                         fontSize: 12,
                         color: Colors.white,

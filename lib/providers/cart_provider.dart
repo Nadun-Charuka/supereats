@@ -123,15 +123,23 @@ class CartNotifier extends AsyncNotifier<List<CartItem>> {
   Future<void> removeFromCart(String productId) async {
     if (_userId == null) return;
 
-    await _supabase
-        .from('cart_items')
-        .delete()
-        .match({'user_id': _userId!, 'product_id': productId});
+    try {
+      // Remove item from Supabase table
+      await _supabase
+          .from('cart_items')
+          .delete()
+          .match({'user_id': _userId!, 'product_id': productId});
 
-    final currentCart = state.value ?? [];
-    state = AsyncValue.data([
-      ...currentCart.where((item) => item.productId != productId),
-    ]);
+      // Update the local provider state
+      final currentCart = state.value ?? [];
+      final updatedCart =
+          currentCart.where((item) => item.productId != productId).toList();
+
+      state = AsyncValue.data(updatedCart);
+    } catch (e, st) {
+      // If something goes wrong, preserve current state and expose the error
+      state = AsyncValue.error(e, st);
+    }
   }
 
   Future<void> clearCart() async {
