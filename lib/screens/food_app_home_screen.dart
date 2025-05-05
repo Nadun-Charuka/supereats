@@ -11,6 +11,7 @@ class FoodAppHomeScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBarWidget(),
       body: Column(
@@ -22,7 +23,7 @@ class FoodAppHomeScreen extends ConsumerWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 AppBannerWidget(),
-                const SizedBox(height: 32),
+                SizedBox(height: size.height * 0.02),
                 const Text(
                   "Categories",
                   style: TextStyle(
@@ -30,11 +31,11 @@ class FoodAppHomeScreen extends ConsumerWidget {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                const SizedBox(height: 8),
+                SizedBox(height: size.height * 0.01),
                 CategoriesBarWidget(),
-                const SizedBox(height: 32),
+                SizedBox(height: size.height * 0.02),
                 const PopularBarWidget(),
-                const SizedBox(height: 8),
+                SizedBox(height: size.height * 0.01),
                 PopularProductWidget(),
               ],
             ),

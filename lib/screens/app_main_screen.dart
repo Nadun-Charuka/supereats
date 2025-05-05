@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:supereats/screens/favorite_screen.dart';
 import 'package:supereats/screens/food_app_home_screen.dart';
 import 'package:supereats/screens/profile_screen.dart';
 
@@ -15,7 +16,7 @@ class _AppMainScreenState extends State<AppMainScreen> {
   int currentIdex = 0;
   final List<Widget> _pages = [
     FoodAppHomeScreen(),
-    Scaffold(),
+    FavoriteScreen(),
     ProfileScreen(),
     Scaffold(),
   ];

@@ -1,8 +1,12 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:supereats/models/product_model.dart';
+import 'package:supereats/providers/favorite_provider.dart';
 import 'package:supereats/screens/food_details_screen.dart';
 
-class FoodCardWidget extends StatelessWidget {
+class FoodCardWidget extends ConsumerWidget {
   final FoodModel food;
   final bool onfire;
   const FoodCardWidget({
@@ -12,7 +16,7 @@ class FoodCardWidget extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return GestureDetector(
       onTap: () {
         Navigator.push(
@@ -64,9 +68,14 @@ class FoodCardWidget extends StatelessWidget {
             left: -10,
             child: IconButton(
               icon: Icon(
-                Icons.favorite_border_rounded,
+                ref.watch(favoriteProvider).value?.contains(food.id) == true
+                    ? Icons.favorite
+                    : Icons.favorite_border_outlined,
               ),
-              onPressed: () {},
+              color: Colors.pink,
+              onPressed: () {
+                ref.read(favoriteProvider.notifier).toggleFavorite(food.id);
+              },
             ),
           ),
           SizedBox(
@@ -76,11 +85,20 @@ class FoodCardWidget extends StatelessWidget {
               children: [
                 Hero(
                   tag: food.imageCard,
-                  child: Image.network(
-                    food.imageCard,
-                    width: 120,
-                    height: 120,
-                    errorBuilder: (context, error, stackTrace) =>
+                  child: CachedNetworkImage(
+                    imageUrl: food.imageCard,
+                    height: 110,
+                    width: 110,
+                    placeholder: (context, url) => Shimmer.fromColors(
+                      child: Container(
+                        width: 120,
+                        height: 120,
+                        color: Colors.white,
+                      ),
+                      baseColor: Colors.grey[300]!,
+                      highlightColor: Colors.grey[100]!,
+                    ),
+                    errorWidget: (context, url, error) =>
                         const Icon(Icons.fastfood, size: 70),
                   ),
                 ),
@@ -97,25 +115,34 @@ class FoodCardWidget extends StatelessWidget {
                 ),
                 Text(food.specialItems),
                 const SizedBox(height: 8),
-                Text.rich(
-                  TextSpan(
-                    text: "\$",
-                    style: TextStyle(
-                      color: Colors.red,
-                      fontSize: 18,
-                      fontWeight: FontWeight.w800,
-                    ),
-                    children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Text.rich(
                       TextSpan(
-                        text: food.price.toString(),
-                        style: const TextStyle(
-                          color: Colors.black,
-                          fontSize: 24,
-                          fontWeight: FontWeight.w900,
+                        text: "\$",
+                        style: TextStyle(
+                          color: Colors.red,
+                          fontSize: 18,
+                          fontWeight: FontWeight.w800,
                         ),
+                        children: [
+                          TextSpan(
+                            text: food.price.toString(),
+                            style: const TextStyle(
+                              color: Colors.black,
+                              fontSize: 24,
+                              fontWeight: FontWeight.w900,
+                            ),
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
+                    ),
+                    IconButton(
+                      onPressed: () {},
+                      icon: Icon(Icons.shopping_cart_outlined),
+                    )
+                  ],
                 ),
               ],
             ),
