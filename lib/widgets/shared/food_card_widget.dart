@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:supereats/models/product_model.dart';
+import 'package:supereats/providers/cart_provider.dart';
 import 'package:supereats/providers/favorite_provider.dart';
 import 'package:supereats/screens/food_details_screen.dart';
 
@@ -142,9 +143,17 @@ class FoodCardWidget extends ConsumerWidget {
                       ),
                     ),
                     IconButton(
-                      onPressed: () {},
-                      icon: Icon(Icons.shopping_cart_outlined),
-                    )
+                      icon: Icon(ref
+                                  .watch(cartProvider)
+                                  .value
+                                  ?.any((item) => item.productId == food.id) ==
+                              true
+                          ? Icons.remove_shopping_cart
+                          : Icons.add_shopping_cart),
+                      onPressed: () {
+                        ref.read(cartProvider.notifier).toggleCart(food.id);
+                      },
+                    ),
                   ],
                 ),
               ],

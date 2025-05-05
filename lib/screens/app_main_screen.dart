@@ -19,7 +19,7 @@ class _AppMainScreenState extends State<AppMainScreen> {
     FoodAppHomeScreen(),
     FavoriteScreen(),
     ProfileScreen(),
-    AddToCardScreen(),
+    CartScreen()
   ];
   @override
   Widget build(BuildContext context) {

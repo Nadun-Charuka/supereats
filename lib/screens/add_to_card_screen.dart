@@ -1,89 +1,99 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:supereats/providers/cart_provider.dart'; // assume this exists
 
-class AddToCardScreen extends ConsumerStatefulWidget {
-  const AddToCardScreen({super.key});
+class CartScreen extends ConsumerWidget {
+  const CartScreen({super.key});
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() =>
-      _AddToCardScreenState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    final cartAsync = ref.watch(cartProvider);
 
-class _AddToCardScreenState extends ConsumerState<AddToCardScreen> {
-  int quantity = 1;
-  @override
-  Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 252, 245, 235),
       appBar: AppBar(
-        backgroundColor: const Color.fromARGB(255, 248, 231, 208),
-        // automaticallyImplyLeading: false,
-        title: Text("Your cart"),
-        centerTitle: true,
+        title: const Text("My Cart"),
+        backgroundColor: Colors.orange.shade50,
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          children: [
-            ListTile(
-              leading: CachedNetworkImage(
-                imageUrl:
-                    "https://tnotihdjodszypvogvrh.supabase.co/storage/v1/object/public/food-delivery-bucket//bacon_burger.png",
-                width: 80,
-                height: 80,
-              ),
-              title: Text("Cheese bugger"),
-              subtitle: Text("rs 500"),
-              trailing: Container(
-                decoration: BoxDecoration(
-                  border: Border.all(),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                height: 40,
-                width: 110,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          quantity > 1 ? quantity-- : 1;
-                        });
+      body: cartAsync.when(
+        loading: () => const Center(child: CircularProgressIndicator()),
+        error: (e, _) => Center(child: Text("Error: $e")),
+        data: (cartItems) {
+          if (cartItems.isEmpty) {
+            return const Center(child: Text("Cart is empty"));
+          }
+
+          return FutureBuilder<List<Map<String, dynamic>>>(
+            future: fetchCartProducts(cartItems),
+            builder: (context, snapshot) {
+              if (!snapshot.hasData) {
+                return const Center(child: CircularProgressIndicator());
+              }
+
+              final products = snapshot.data!;
+              double total = 0;
+
+              for (var i = 0; i < products.length; i++) {
+                final p = products[i];
+                final qty = cartItems[i].quantity;
+                total += (p['price'] as num) * qty;
+              }
+
+              return Column(
+                children: [
+                  Expanded(
+                    child: ListView.builder(
+                      itemCount: products.length,
+                      itemBuilder: (context, index) {
+                        final product = products[index];
+                        final quantity = cartItems[index].quantity;
+
+                        return ListTile(
+                          title: Text(product['name']),
+                          subtitle: Text("Quantity: $quantity"),
+                          trailing: Text(
+                              "LKR ${(product['price'] * quantity).toStringAsFixed(2)}"),
+                        );
                       },
-                      child: Icon(
-                        Icons.remove,
-                        size: 18,
-                        color: Colors.black,
-                      ),
                     ),
-                    Text(
-                      quantity.toString(),
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.black,
-                      ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Column(
+                      children: [
+                        Text(
+                          "Total: LKR ${total.toStringAsFixed(2)}",
+                          style: const TextStyle(fontSize: 18),
+                        ),
+                        const SizedBox(height: 10),
+                        ElevatedButton(
+                          onPressed: () async {
+                            await ref
+                                .read(cartProvider.notifier)
+                                .checkoutCart(total);
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(content: Text("Order placed!")),
+                            );
+                          },
+                          child: const Text("Checkout"),
+                        ),
+                      ],
                     ),
-                    GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          quantity >= 1 ? quantity++ : 1;
-                        });
-                      },
-                      child: Icon(
-                        Icons.add,
-                        size: 18,
-                        color: Colors.black,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            )
-          ],
-        ),
+                  ),
+                ],
+              );
+            },
+          );
+        },
       ),
     );
+  }
+
+  Future<List<Map<String, dynamic>>> fetchCartProducts(
+      List<CartItem> items) async {
+    final productIds = items.map((e) => e.productId).toList();
+    final allProducts =
+        await Supabase.instance.client.from('food_product').select('*');
+    return allProducts.where((p) => productIds.contains(p['id'])).toList();
   }
 }
