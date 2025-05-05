@@ -2,9 +2,19 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:supereats/providers/cart_provider.dart';
 
 class AddToCardWidget extends ConsumerStatefulWidget {
-  const AddToCardWidget({super.key});
+  final Map<String, dynamic> product;
+  final int initialQuantity;
+  final void Function(int newQuantity) onQuantityChanged;
+
+  const AddToCardWidget({
+    super.key,
+    required this.product,
+    required this.initialQuantity,
+    required this.onQuantityChanged,
+  });
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() =>
@@ -12,86 +22,78 @@ class AddToCardWidget extends ConsumerStatefulWidget {
 }
 
 class _AddToCardWidgetState extends ConsumerState<AddToCardWidget> {
-  int quantity = 1;
+  late int quantity;
+
+  @override
+  void initState() {
+    super.initState();
+    quantity = widget.initialQuantity;
+  }
+
+  void updateQuantity(int newQty) {
+    setState(() => quantity = newQty);
+    widget.onQuantityChanged(newQty); // Notify parent (CartScreen)
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Column(
+    final product = widget.product;
+    final totalPrice = product['price'] * quantity;
+
+    return ListTile(
+      onLongPress: () {
+        ref.read(cartProvider.notifier).removeFromCart(product['id']);
+      },
+      leading: CachedNetworkImage(
+        imageUrl: product['imageCard'],
+        width: 60,
+        height: 60,
+        placeholder: (context, url) => Shimmer.fromColors(
+          child: Container(
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(20),
+            ),
+            width: 60,
+            height: 60,
+          ),
+          baseColor: Colors.grey[300]!,
+          highlightColor: Colors.grey[100]!,
+        ),
+      ),
+      title: Text(product['name']),
+      subtitle: Text("Quantity: $quantity"),
+      trailing: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          ListTile(
-            leading: CachedNetworkImage(
-              imageUrl:
-                  "https://tnotihdjodszypvogvrh.supabase.co/storage/v1/object/public/food-delivery-bucket//bacon_burger.png",
-              width: 80,
-              height: 80,
-              placeholder: (context, url) => Shimmer.fromColors(
-                baseColor: Colors.grey[300]!,
-                highlightColor: Colors.grey[100]!,
-                child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                    color: Colors.white,
-                  ),
-                  width: 80,
-                  height: 80,
-                ),
-              ),
+          Text("LKR ${totalPrice.toStringAsFixed(2)}"),
+          const SizedBox(height: 4),
+          Container(
+            height: 30,
+            width: 90,
+            decoration: BoxDecoration(
+              border: Border.all(),
+              borderRadius: BorderRadius.circular(8),
             ),
-            title: Text("Cheese bugger"),
-            subtitle: Text("rs 500"),
-            trailing: Container(
-              decoration: BoxDecoration(
-                border: Border.all(),
-                borderRadius: BorderRadius.circular(10),
-              ),
-              height: 40,
-              width: 120,
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    InkWell(
-                      borderRadius: BorderRadius.circular(20),
-                      onTap: () {
-                        setState(() {
-                          quantity > 1 ? quantity-- : 1;
-                        });
-                      },
-                      child: Icon(
-                        Icons.remove,
-                        size: 18,
-                        color: Colors.black,
-                      ),
-                    ),
-                    Text(
-                      quantity.toString(),
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.black,
-                      ),
-                    ),
-                    InkWell(
-                      borderRadius: BorderRadius.circular(20),
-                      onTap: () {
-                        setState(() {
-                          quantity >= 1 ? quantity++ : 1;
-                        });
-                      },
-                      child: Icon(
-                        Icons.add,
-                        size: 18,
-                        color: Colors.black,
-                      ),
-                    ),
-                  ],
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                InkWell(
+                  onTap: () {
+                    if (quantity > 1) updateQuantity(quantity - 1);
+                  },
+                  child: const Icon(Icons.remove, size: 18),
                 ),
-              ),
+                Text(quantity.toString()),
+                InkWell(
+                  onTap: () {
+                    updateQuantity(quantity + 1);
+                  },
+                  child: const Icon(Icons.add, size: 18),
+                ),
+              ],
             ),
-          )
+          ),
         ],
       ),
     );

@@ -1,12 +1,13 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:iconsax/iconsax.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:readmore/readmore.dart';
-import 'package:shimmer/shimmer.dart';
 import 'package:supereats/models/product_model.dart';
+import 'package:supereats/providers/cart_provider.dart';
 import 'package:supereats/utils/colors.dart';
+import 'package:supereats/widgets/snackbar.dart';
 
-class FoodDetailsScreen extends StatefulWidget {
+class FoodDetailsScreen extends ConsumerStatefulWidget {
   final FoodModel food;
   const FoodDetailsScreen({
     super.key,
@@ -14,10 +15,10 @@ class FoodDetailsScreen extends StatefulWidget {
   });
 
   @override
-  State<FoodDetailsScreen> createState() => _FoodDetailsScreenState();
+  ConsumerState<FoodDetailsScreen> createState() => _FoodDetailsScreenState();
 }
 
-class _FoodDetailsScreenState extends State<FoodDetailsScreen> {
+class _FoodDetailsScreenState extends ConsumerState<FoodDetailsScreen> {
   int quantity = 1;
   @override
   Widget build(BuildContext context) {
@@ -257,7 +258,13 @@ class _FoodDetailsScreenState extends State<FoodDetailsScreen> {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {},
+        onPressed: () {
+          ref.read(cartProvider.notifier).addToCart(
+                widget.food.id,
+                quantity: quantity,
+              );
+          showSnackBar(context, "${widget.food.name} added to cart");
+        },
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
         label: SizedBox(
           height: 65,

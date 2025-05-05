@@ -6,6 +6,7 @@ import 'package:supereats/models/product_model.dart';
 import 'package:supereats/providers/cart_provider.dart';
 import 'package:supereats/providers/favorite_provider.dart';
 import 'package:supereats/screens/food_details_screen.dart';
+import 'package:supereats/widgets/snackbar.dart';
 
 class FoodCardWidget extends ConsumerWidget {
   final FoodModel food;
@@ -152,6 +153,13 @@ class FoodCardWidget extends ConsumerWidget {
                           : Icons.add_shopping_cart),
                       onPressed: () {
                         ref.read(cartProvider.notifier).toggleCart(food.id);
+                        ref.watch(cartProvider).value?.any(
+                                    (item) => item.productId == food.id) ==
+                                true
+                            ? showSnackBar(
+                                context, "${food.name} delete from cart")
+                            : showSnackBar(
+                                context, "${food.name} added to cart");
                       },
                     ),
                   ],

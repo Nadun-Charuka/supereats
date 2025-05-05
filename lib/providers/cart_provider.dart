@@ -66,38 +66,57 @@ class CartNotifier extends AsyncNotifier<List<CartItem>> {
     }
   }
 
-  Future<void> addToCart(String productId) async {
+  Future<void> addToCart(String productId, {int quantity = 1}) async {
     if (_userId == null) return;
 
     final currentCart = state.value ?? [];
     final index = currentCart.indexWhere((item) => item.productId == productId);
 
     if (index != -1) {
-      final updatedItem = CartItem(
-        productId: productId,
-        quantity: currentCart[index].quantity + 1,
-      );
+      final updatedQty = currentCart[index].quantity + quantity;
+      final updatedItem = CartItem(productId: productId, quantity: updatedQty);
 
-      await _supabase
-          .from('cart_items')
-          .update({'quantity': updatedItem.quantity}).match(
-              {'user_id': _userId!, 'product_id': productId});
+      await _supabase.from('cart_items').update({
+        'quantity': updatedQty,
+      }).match({'user_id': _userId!, 'product_id': productId});
 
       final updatedCart = [...currentCart];
       updatedCart[index] = updatedItem;
-
       state = AsyncValue.data(updatedCart);
     } else {
       await _supabase.from('cart_items').insert({
         'user_id': _userId,
         'product_id': productId,
-        'quantity': 1,
+        'quantity': quantity,
       });
 
       state = AsyncValue.data([
         ...currentCart,
-        CartItem(productId: productId, quantity: 1),
+        CartItem(productId: productId, quantity: quantity),
       ]);
+    }
+  }
+
+  Future<void> setQuantity(String productId, int quantity) async {
+    if (_userId == null) return;
+    if (quantity < 1) {
+      await removeFromCart(productId);
+      return;
+    }
+
+    final currentCart = state.value ?? [];
+    final index = currentCart.indexWhere((item) => item.productId == productId);
+
+    if (index != -1) {
+      final updatedItem = CartItem(productId: productId, quantity: quantity);
+
+      await _supabase.from('cart_items').update({
+        'quantity': quantity,
+      }).match({'user_id': _userId!, 'product_id': productId});
+
+      final updatedCart = [...currentCart];
+      updatedCart[index] = updatedItem;
+      state = AsyncValue.data(updatedCart);
     }
   }
 

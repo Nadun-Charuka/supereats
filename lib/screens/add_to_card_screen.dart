@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:supereats/providers/cart_provider.dart'; // assume this exists
+import 'package:supereats/providers/cart_provider.dart';
+import 'package:supereats/widgets/shared/add_to_card_widget.dart';
+import 'package:supereats/widgets/snackbar.dart'; // assume this exists
 
 class CartScreen extends ConsumerWidget {
   const CartScreen({super.key});
@@ -33,28 +35,41 @@ class CartScreen extends ConsumerWidget {
               final products = snapshot.data!;
               double total = 0;
 
-              for (var i = 0; i < products.length; i++) {
-                final p = products[i];
-                final qty = cartItems[i].quantity;
-                total += (p['price'] as num) * qty;
+              for (final item in cartItems) {
+                final p = products
+                    .firstWhere((product) => product['id'] == item.productId);
+                total += (p['price'] as num) * item.quantity;
               }
 
               return Column(
                 children: [
-                  Expanded(
-                    child: ListView.builder(
-                      itemCount: products.length,
-                      itemBuilder: (context, index) {
-                        final product = products[index];
-                        final quantity = cartItems[index].quantity;
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.6,
+                    child: Expanded(
+                      child: ListView.builder(
+                        scrollDirection: Axis.vertical,
+                        itemCount: products.length,
+                        itemBuilder: (context, index) {
+                          final product = products[index];
+                          final quantity = cartItems[index].quantity;
 
-                        return ListTile(
-                          title: Text(product['name']),
-                          subtitle: Text("Quantity: $quantity"),
-                          trailing: Text(
-                              "LKR ${(product['price'] * quantity).toStringAsFixed(2)}"),
-                        );
-                      },
+                          return products.isEmpty
+                              ? Text("Empty cart")
+                              : Padding(
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 5),
+                                  child: AddToCardWidget(
+                                    product: product,
+                                    initialQuantity: quantity,
+                                    onQuantityChanged: (newQty) {
+                                      ref
+                                          .read(cartProvider.notifier)
+                                          .setQuantity(product['id'], newQty);
+                                    },
+                                  ),
+                                );
+                        },
+                      ),
                     ),
                   ),
                   Padding(
@@ -66,16 +81,26 @@ class CartScreen extends ConsumerWidget {
                           style: const TextStyle(fontSize: 18),
                         ),
                         const SizedBox(height: 10),
-                        ElevatedButton(
-                          onPressed: () async {
-                            await ref
-                                .read(cartProvider.notifier)
-                                .checkoutCart(total);
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(content: Text("Order placed!")),
-                            );
-                          },
-                          child: const Text("Checkout"),
+                        SizedBox(
+                          width: double.infinity,
+                          height: 60,
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.red.shade500,
+                            ),
+                            onPressed: () async {
+                              await ref
+                                  .read(cartProvider.notifier)
+                                  .checkoutCart(total);
+                              showSnackBar(context, "Order Placed");
+                            },
+                            child: const Text(
+                              "Checkout",
+                              style: TextStyle(
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
                         ),
                       ],
                     ),
