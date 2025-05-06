@@ -300,7 +300,6 @@ class ExtraDetailCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final kheight = MediaQuery.of(context).size.height;
     final kwidth = MediaQuery.of(context).size.width;
     return SizedBox(
       height: 45,

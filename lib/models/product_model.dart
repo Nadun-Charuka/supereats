@@ -72,7 +72,7 @@
 // i have a csv file of this saample data, i will upload this csv file in my supabase project,
 
 var desc =
-    "This is a special types of tiems, often served with cheese, lettuce, tomato, onion, pickles, bacon, or chilis; condiments such as ketchup, mustard, mayonnaise, relish, or a 'specialItems sauce', often a variation of Thousand Island dressing; and are frequently placed on sesame seed buns.";
+    "Special items like burgers, pizzas, and cakes, topped with cheese, veggies, sauces, and more. Burgers often come on sesame buns.";
 
 // this is the model
 // first let's upload the csv file in supabase.

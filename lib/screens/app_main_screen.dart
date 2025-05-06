@@ -25,6 +25,7 @@ class _AppMainScreenState extends ConsumerState<AppMainScreen> {
   ];
   @override
   Widget build(BuildContext context) {
+    final kwidth = MediaQuery.of(context).size.width;
     return Scaffold(
       body: _pages[currentIdex],
       bottomNavigationBar: Container(
@@ -66,7 +67,7 @@ class _AppMainScreenState extends ConsumerState<AppMainScreen> {
                 ),
                 Positioned(
                   top: -25,
-                  right: 150,
+                  right: kwidth * 0.36,
                   child: CircleAvatar(
                     backgroundColor: Colors.red,
                     radius: 35,

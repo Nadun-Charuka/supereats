@@ -47,7 +47,7 @@ class ViewAllProductScreen extends StatelessWidget {
                 crossAxisCount: 2,
                 crossAxisSpacing: 10,
                 mainAxisSpacing: 20,
-                childAspectRatio: 0.75,
+                childAspectRatio: 0.65,
               ),
               itemCount: foodList.length,
               itemBuilder: (context, index) {

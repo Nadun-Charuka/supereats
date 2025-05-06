@@ -52,7 +52,6 @@ class _AppBannerWidgetState extends State<AppBannerWidget> {
   @override
   Widget build(BuildContext context) {
     final kheight = MediaQuery.of(context).size.height;
-    final kwidth = MediaQuery.of(context).size.width;
     return SizedBox(
       height: kheight * 0.2,
       child: ListView.builder(
