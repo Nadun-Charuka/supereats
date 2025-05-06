@@ -54,7 +54,7 @@ class _SignupScreenState extends State<SignupScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Image.asset(
-                "assets/signup.jpg",
+                "assets/auth/signup.jpg",
                 width: double.maxFinite,
                 height: 500,
                 fit: BoxFit.contain,

@@ -19,6 +19,8 @@ class FoodCardWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final kheight = MediaQuery.of(context).size.height;
+    final kwidth = MediaQuery.of(context).size.width;
     return GestureDetector(
       onTap: () {
         Navigator.push(
@@ -38,7 +40,7 @@ class FoodCardWidget extends ConsumerWidget {
           Positioned(
             bottom: 0,
             child: Container(
-              height: 180,
+              height: kheight * 0.24,
               width: MediaQuery.of(context).size.width * 0.45,
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(

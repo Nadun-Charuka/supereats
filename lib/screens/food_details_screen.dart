@@ -22,7 +22,8 @@ class _FoodDetailsScreenState extends ConsumerState<FoodDetailsScreen> {
   int quantity = 1;
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
+    final kheight = MediaQuery.of(context).size.height;
+    final kwidth = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -76,8 +77,8 @@ class _FoodDetailsScreenState extends ConsumerState<FoodDetailsScreen> {
         children: [
           Container(
             color: imageBackground,
-            width: size.width,
-            height: size.height,
+            width: kwidth,
+            height: kheight,
             child: Image.asset(
               "assets/food-delivery/food pattern.png",
               fit: BoxFit.cover,
@@ -85,8 +86,8 @@ class _FoodDetailsScreenState extends ConsumerState<FoodDetailsScreen> {
             ),
           ),
           Container(
-            width: size.width,
-            height: size.height * 0.75,
+            width: kwidth,
+            height: kheight * 0.75,
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.vertical(
@@ -97,13 +98,16 @@ class _FoodDetailsScreenState extends ConsumerState<FoodDetailsScreen> {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
+                SizedBox(
+                  height: 64,
+                ),
                 Hero(
                   tag: widget.food.imageCard,
                   child: CachedNetworkImage(
                     imageUrl: widget.food.imageDetail,
-                    height: 320,
+                    height: kheight * 0.4,
                     errorWidget: (context, url, error) => Icon(
                       Icons.fastfood,
                       size: 250,
@@ -111,11 +115,11 @@ class _FoodDetailsScreenState extends ConsumerState<FoodDetailsScreen> {
                   ),
                 ),
                 SizedBox(
-                  height: 32,
+                  height: 8,
                 ),
                 Container(
                   height: 40,
-                  width: 120,
+                  width: 140,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(20),
                     color: Colors.red,
@@ -123,7 +127,7 @@ class _FoodDetailsScreenState extends ConsumerState<FoodDetailsScreen> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      GestureDetector(
+                      InkWell(
                         onTap: () {
                           setState(() {
                             quantity > 1 ? quantity-- : 1;
@@ -143,7 +147,7 @@ class _FoodDetailsScreenState extends ConsumerState<FoodDetailsScreen> {
                           color: Colors.white,
                         ),
                       ),
-                      GestureDetector(
+                      InkWell(
                         onTap: () {
                           setState(() {
                             quantity >= 1 ? quantity++ : 1;
@@ -159,7 +163,7 @@ class _FoodDetailsScreenState extends ConsumerState<FoodDetailsScreen> {
                   ),
                 ),
                 SizedBox(
-                  height: 32,
+                  height: 16,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -239,7 +243,7 @@ class _FoodDetailsScreenState extends ConsumerState<FoodDetailsScreen> {
                     fontSize: 16,
                     fontWeight: FontWeight.w300,
                   ),
-                  trimLength: 110,
+                  trimLength: 80,
                   trimCollapsedText: "read more",
                   trimExpandedText: "show less",
                   colorClickableText: Colors.redAccent,
@@ -296,9 +300,11 @@ class ExtraDetailCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final kheight = MediaQuery.of(context).size.height;
+    final kwidth = MediaQuery.of(context).size.width;
     return SizedBox(
       height: 45,
-      width: 120,
+      width: kwidth * 0.28,
       child: Card(
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,

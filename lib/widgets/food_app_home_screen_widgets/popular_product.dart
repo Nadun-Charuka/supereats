@@ -26,6 +26,8 @@ class PopularProductWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final kheight = MediaQuery.of(context).size.height;
+    final kwidth = MediaQuery.of(context).size.width;
     final selectedCategory = ref.watch(selectedCategoryProvider);
     return SizedBox(
       child: (selectedCategory == null || selectedCategory.isEmpty)
@@ -44,7 +46,7 @@ class PopularProductWidget extends ConsumerWidget {
 
                 final foodList = snapshot.data!;
                 return SizedBox(
-                  height: 280,
+                  height: kheight * 0.34,
                   child: ListView.builder(
                     scrollDirection: Axis.horizontal,
                     itemCount: foodList.length,

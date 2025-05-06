@@ -29,7 +29,7 @@ class _AppMainScreenState extends ConsumerState<AppMainScreen> {
       body: _pages[currentIdex],
       bottomNavigationBar: Container(
         decoration: BoxDecoration(color: Colors.white),
-        height: 80,
+        height: 70,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [

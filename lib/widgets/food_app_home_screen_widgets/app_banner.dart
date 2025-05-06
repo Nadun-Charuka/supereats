@@ -51,8 +51,10 @@ class _AppBannerWidgetState extends State<AppBannerWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final kheight = MediaQuery.of(context).size.height;
+    final kwidth = MediaQuery.of(context).size.width;
     return SizedBox(
-      height: 160,
+      height: kheight * 0.2,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         controller: _scrollController,
@@ -85,6 +87,8 @@ class FoodBannerScrollingWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final kheight = MediaQuery.of(context).size.height;
+    final kwidth = MediaQuery.of(context).size.width;
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Container(
@@ -92,7 +96,7 @@ class FoodBannerScrollingWidget extends StatelessWidget {
           color: containerColor,
           borderRadius: BorderRadius.circular(20),
         ),
-        height: 160,
+        height: kheight * 0.2,
         width: MediaQuery.of(context).size.width * 0.9,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -129,8 +133,8 @@ class FoodBannerScrollingWidget extends StatelessWidget {
               ],
             ),
             SizedBox(
-              height: 120,
-              width: 120,
+              height: kheight * 0.15,
+              width: kwidth * 0.15,
               child: Image.asset(
                 imgUrl,
               ),

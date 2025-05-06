@@ -13,6 +13,7 @@ class CartScreen extends ConsumerWidget {
     final cartAsync = ref.watch(cartProvider);
 
     return Scaffold(
+      backgroundColor: const Color.fromARGB(255, 253, 251, 248),
       appBar: AppBar(
         title: const Text("My Cart"),
         backgroundColor: Colors.orange.shade50,

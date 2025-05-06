@@ -57,10 +57,10 @@ class _LoginScreenState extends State<LoginScreen> {
           child: Column(
             children: [
               Image.asset(
-                "assets/login.jpg",
+                "assets/auth/login.jpg",
                 width: double.maxFinite,
                 height: 500,
-                fit: BoxFit.cover,
+                fit: BoxFit.contain,
               ),
               SizedBox(
                 height: 16,
@@ -103,6 +103,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       child: CircularProgressIndicator(),
                     )
                   : AuthButton(
+                      color: Colors.deepOrangeAccent,
                       buttonText: "Login",
                       onTap: () {
                         _login();
@@ -135,7 +136,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         fontWeight: FontWeight.bold,
                         letterSpacing: -1,
                         fontSize: 18,
-                        color: Colors.blueAccent,
+                        color: Colors.orangeAccent,
                       ),
                     ),
                   ),

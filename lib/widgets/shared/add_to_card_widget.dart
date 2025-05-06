@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:supereats/providers/cart_provider.dart';
+import 'package:supereats/widgets/snackbar.dart';
 
 class AddToCardWidget extends ConsumerStatefulWidget {
   final Map<String, dynamic> product;
@@ -43,6 +44,7 @@ class _AddToCardWidgetState extends ConsumerState<AddToCardWidget> {
     return ListTile(
       onLongPress: () {
         ref.read(cartProvider.notifier).removeFromCart(product['id']);
+        showSnackBar(context, "Item remove from cart");
       },
       leading: CachedNetworkImage(
         imageUrl: product['imageCard'],

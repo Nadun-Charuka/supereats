@@ -55,8 +55,10 @@ class _CategoriesBarWidgetState extends ConsumerState<CategoriesBarWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final kheight = MediaQuery.of(context).size.height;
+    final kwidth = MediaQuery.of(context).size.width;
     return SizedBox(
-      height: 60,
+      height: kheight * 0.065,
       child: FutureBuilder(
         future: futureCategories,
         builder: (context, snapshot) {
